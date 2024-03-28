@@ -1,2 +1,2 @@
 # sa-ms-js-third-mngr
-Manager de terceros
+Microservicio de Manager de terceros
