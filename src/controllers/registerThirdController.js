@@ -19,9 +19,8 @@ const secret = process.env.SECRET;
 
 
 
-RegisterThirdController.post("/third_user", async (req, res) => {
+registerThirdController.post("/third_user", async (req, res) => {
     try {
-        
         if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
             const error = new Error("No se ha enviado el cuerpo de la petición");
             error.code = constants.HTTP_STATUS_BAD_REQUEST;

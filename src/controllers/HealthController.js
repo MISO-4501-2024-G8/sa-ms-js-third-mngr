@@ -3,7 +3,7 @@ const {constants} = require('http2');
 
 const healthController = express.Router();
 
-HealthController.get("/status", (req, res) => {
+healthController.get("/status", (req, res) => {
     res.status(constants.HTTP_STATUS_OK).json({ status: "OK" });
 });
 
