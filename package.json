@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "devp": "set NODE_ENVIRONMENT=development && nodemon src/index.js",
-    "start": "node src/index.js",
+    "start": "NODE_ENVIRONMENT=production node src/index.js",
     "test": "jest --coverage --no-watchman --forceExit",
     "lint": "eslint ."
   },
