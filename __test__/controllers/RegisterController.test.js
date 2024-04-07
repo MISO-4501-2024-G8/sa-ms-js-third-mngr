@@ -8,7 +8,7 @@ jest.mock("jsonwebtoken", () => ({
     sign: jest.fn(() => "mocked-token")
 }));
 const Database = require("../../src/database/data");
-const registerController = require("../../src/controllers/RegisterThirdController");
+const registerController = require("../../src/controllers/registerThirdController");
 const { v4: uuidv4 } = require('uuid');
 const exp = require("constants");
 

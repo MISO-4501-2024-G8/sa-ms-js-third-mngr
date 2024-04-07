@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const pathEnv = `./env/.env.${process.env.NODE_ENVIRONMENT}`;
 const healthController = require("./controllers/HealthController");
-const registerThirdController = require("./controllers/RegisterThirdController");
+const registerThirdController = require("./controllers/registerThirdController");
 
 console.log('pathEnv:', pathEnv);
 dotenv.config({ path: pathEnv });
