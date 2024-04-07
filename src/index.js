@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use("/health", healthController);
-app.use("/registerThird", registerThirdController);
+app.use("/register", registerThirdController);
 
 
 // Health check endpoint
