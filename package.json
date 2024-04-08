@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "devp": "set NODE_ENVIRONMENT=development && nodemon src/index.js",
+    "develop": "set NODE_ENVIRONMENT=development && nodemon src/index.js",
     "start": "NODE_ENVIRONMENT=production node src/index.js",
+    "prod": "set NODE_ENVIRONMENT=production && nodemon src/index.js",
     "test": "jest --coverage --no-watchman --forceExit",
     "lint": "eslint ."
   },

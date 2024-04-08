@@ -6,11 +6,11 @@ const Models = require('./models');
 class Database {
     constructor() {
         const DBData = {
-            database: process.env.DB_DATABASE,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            host: process.env.DB_HOST,
-            dialect: process.env.DB_DIALECT || 'mysql'
+            database: process.env.DB_DATABASE || "db_user" ,
+            username: process.env.DB_USER || "admin",
+            password: process.env.DB_PASSWORD || "123456789" ,
+            host: process.env.DB_HOST || "databasesportapp.cvweuasge1pc.us-east-1.rds.amazonaws.com",
+            dialect: process.env.DB_DIALECT || "mysql"
         };
         this.sequelize = new Sequelize(DBData.database, DBData.username, DBData.password, {
             host: DBData.host,
