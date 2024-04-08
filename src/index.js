@@ -2,13 +2,10 @@ const express = require("express");
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const pathEnv = `./env/.env.${process.env.NODE_ENVIRONMENT}`;
-const healthController = require("./controllers/healthController");
-const registerThirdController = require("./controllers/registerThirdController");
 
 console.log('pathEnv:', pathEnv);
 dotenv.config({ path: pathEnv });
-
-const PORT =  process.env.PORT || 3002;
+const PORT =  process.env.PORT || 3000;
 const DBData = {
     database: process.env.DB_DATABASE || "db_user" ,
     username: process.env.DB_USER || "admin",
@@ -17,7 +14,8 @@ const DBData = {
     dialect: process.env.DB_DIALECT || "mysql"
 }
 console.log('DBData:', JSON.stringify(DBData));
-
+const healthController = require("./controllers/healthController");
+const registerThirdController = require("./controllers/registerThirdController");
 
 
 const app = express();
