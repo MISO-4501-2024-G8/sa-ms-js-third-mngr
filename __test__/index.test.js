@@ -19,5 +19,11 @@ describe('health check', () => {
     });
   });
 
+  it('should return ok 200', async () => {
+    await request.get('/').then((response) => {
+      expect(response.status).toBe(200);
+    });
+  });
+
 
 });
