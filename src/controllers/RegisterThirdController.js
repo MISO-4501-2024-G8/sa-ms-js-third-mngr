@@ -4,24 +4,21 @@ const jwt = require('jsonwebtoken');
 const { encrypt, decrypt } = require('../utils/encrypt_decrypt');
 const { errorHandling } = require('../utils/errorHandling');
 const { v4: uuidv4 } = require('uuid');
+const Database = require("../database/data");
 
 const registerThirdController = express.Router();
 
-const Database = require("../database/data");
+
 const db = new Database();
 const user = db.models.defineUser();
 const thirdUser = db.models.defineThirdUser();
-
 const expirationTime = 600 * 2000;
-
-
 const secret = process.env.SECRET;
 
 
 
-RegisterThirdController.post("/third_user", async (req, res) => {
+registerThirdController.post("/third_user", async (req, res) => {
     try {
-        
         if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
             const error = new Error("No se ha enviado el cuerpo de la petición");
             error.code = constants.HTTP_STATUS_BAD_REQUEST;
