@@ -25,6 +25,10 @@ app.use(bodyParser.json());
 
 app.use("/health", healthController);
 app.use("/register", registerThirdController);
+// Health check endpoint
+app.get("/", (req, res) => {
+    res.status(200).json({ status: "OK" });
+});
 
 app.use((req, res) => {
     res.status(404).json({ error: "Not found" });
