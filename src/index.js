@@ -14,8 +14,8 @@ const DBData = {
     dialect: process.env.DB_DIALECT || "mysql"
 }
 console.log('DBData:', JSON.stringify(DBData));
-const healthController = require("./controllers/healthController");
-const registerThirdController = require("./controllers/registerThirdController");
+const healthController = require("./controllers/HealthController");
+const registerThirdController = require("./controllers/RegisterThirdController");
 
 
 const app = express();
