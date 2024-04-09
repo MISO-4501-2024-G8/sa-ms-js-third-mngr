@@ -68,6 +68,7 @@ describe("RegisterController", () => {
             email: randomEmail,
             psw: "password",
             name: "John Doe",
+            user_type: "T",
         };
         const response = await supertest(app)
             .post("/register/third_user")
