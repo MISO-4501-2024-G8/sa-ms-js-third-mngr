@@ -1,7 +1,7 @@
 const express = require("express");
 const { constants } = require('http2');
 const jwt = require('jsonwebtoken');
-const { encrypt, decrypt } = require('../utils/encrypt_decrypt');
+const { encrypt } = require('../utils/encrypt_decrypt');
 const { errorHandling } = require('../utils/errorHandling');
 const { v4: uuidv4 } = require('uuid');
 const Database = require("../database/data");
