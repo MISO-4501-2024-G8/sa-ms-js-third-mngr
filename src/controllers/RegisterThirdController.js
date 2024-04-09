@@ -13,7 +13,7 @@ const db = new Database();
 const user = db.models.defineUser();
 const thirdUser = db.models.defineThirdUser();
 const expirationTime = 600 * 2000;
-const secret = process.env.SECRET;
+const secret = 'MISO-4501-2024-G8';
 
 
 
@@ -51,6 +51,7 @@ registerThirdController.post("/third_user", async (req, res) => {
         }
 
         const encryptPWD = encrypt(password, secret);
+        console.log('Contraseña encriptada:', encryptPWD);
         const idUser = uuidv4().split('-')[0];
         const expiration_token = Date.now() + expirationTime;
         const token = jwt.sign({
