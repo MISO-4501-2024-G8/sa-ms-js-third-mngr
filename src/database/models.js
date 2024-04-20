@@ -77,7 +77,15 @@ class Models {
                 contact_name: {
                     type: DataTypes.STRING,
                     allowNull: false
-                }
+                },
+                company_description: {
+                    type: DataTypes.STRING,
+                    allowNull: true
+                },
+                company_status: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
             },
             {
                 tableName: 'third_user'

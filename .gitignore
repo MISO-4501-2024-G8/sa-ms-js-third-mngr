@@ -4,3 +4,6 @@ node_modules/
 
 coverage/
 /coverage
+.DS_Store
+__test__/.DS_Store
+src/.DS_Store

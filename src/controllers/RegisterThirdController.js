@@ -9,7 +9,7 @@ const Database = require("../database/data");
 const registerThirdController = express.Router();
 
 
-const db = new Database();
+const db = new Database("db_user");
 const user = db.models.defineUser();
 const thirdUser = db.models.defineThirdUser();
 const expirationTime = 600 * 2000;

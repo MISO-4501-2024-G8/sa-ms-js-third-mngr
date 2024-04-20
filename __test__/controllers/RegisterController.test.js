@@ -46,7 +46,6 @@ jest.mock('../../src/database/data', () => {
             }
         }
     }
-
     return DatabaseMock;
 });
 

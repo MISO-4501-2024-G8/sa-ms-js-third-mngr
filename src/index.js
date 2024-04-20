@@ -17,6 +17,7 @@ const DBData = {
 console.log('DBData:', JSON.stringify(DBData));
 const healthController = require("./controllers/HealthController");
 const registerThirdController = require("./controllers/RegisterThirdController");
+const thirdProductController = require("./controllers/ThirdProductController");
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 
 app.use("/health", healthController);
 app.use("/register", registerThirdController);
+app.use("/third", thirdProductController);
 // Health check endpoint
 app.get("/", (req, res) => {
     res.status(200).json({ status: "OK", code: 200 });
