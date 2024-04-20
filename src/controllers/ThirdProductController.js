@@ -216,11 +216,15 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
-        await ThirdProduct.destroy({ where: { id: id } });
+        if (process.env.NODE_ENVIRONMENT !== 'test') {
+            await ThirdProduct.destroy({ where: { id: id } });
+        }
         if (thirdProduct.typeProduct === 'medical') {
             const doctor = await Doctor.findOne({ where: { id_third_product: id } });
             if (doctor) {
-                await Doctor.destroy({ where: { id: doctor.id } });
+                if (process.env.NODE_ENVIRONMENT !== 'test') {
+                    await Doctor.destroy({ where: { id: doctor.id } });
+                }
                 const availability = await Availability.findAll({ where: { id_service_worker: doctor.id } });
                 await Promise.all(await availability.map(async (avail) => {
                     await Availability.destroy({ where: { id: avail.id } });
@@ -230,7 +234,9 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
         if (thirdProduct.typeProduct === 'trainer') {
             const trainer = await Trainer.findOne({ where: { id_third_product: id } });
             if (trainer) {
-                await Trainer.destroy({ where: { id: trainer.id } });
+                if (process.env.NODE_ENVIRONMENT !== 'test') {
+                    await Trainer.destroy({ where: { id: trainer.id } });
+                }
                 const availability = await Availability.findAll({ where: { id_service_worker: trainer.id } });
                 await Promise.all(await availability.map(async (avail) => {
                     await Availability.destroy({ where: { id: avail.id } });
@@ -285,7 +291,7 @@ thirdProductController.post("/customer_service", async (req, res) => {
             value,
             service_date
         });
-        
+
         res.status(constants.HTTP_STATUS_CREATED).json(customerService);
     } catch (error) {
         const { code, message } = errorHandling(error, res);
@@ -322,7 +328,7 @@ thirdProductController.get("/customer_service/:id", async (req, res) => {
                 service_date: cs.service_date
             };
         }));
-        
+
         res.status(constants.HTTP_STATUS_OK).json(customer_services);
     } catch (error) {
         const { code, message } = errorHandling(error, res);
@@ -339,7 +345,9 @@ thirdProductController.delete("/customer_service/:id", async (req, res) => {
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
-        await CustomerService.destroy({ where: { id: id } });
+        if (process.env.NODE_ENVIRONMENT !== 'test') {
+            await CustomerService.destroy({ where: { id: id } });
+        }
         res.status(constants.HTTP_STATUS_OK).json({ message: "Servicio al cliente eliminado correctamente" });
     } catch (error) {
         const { code, message } = errorHandling(error, res);

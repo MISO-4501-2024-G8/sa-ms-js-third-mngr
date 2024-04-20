@@ -163,6 +163,13 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
     });
 
+    it('should delete third_product by id', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .delete("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
     it('should post to customer_service', async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
@@ -184,6 +191,13 @@ describe("ThirdProductController", () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
             .get("/third/customer_service/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it('it should delete customer_service by id', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .delete("/third/customer_service/1")
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
     });
 
