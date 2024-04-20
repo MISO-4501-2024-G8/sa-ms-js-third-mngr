@@ -8,7 +8,7 @@ function errorHandling(error) {
         code = error.code;
         message = error.message;
     } else {
-        console.error("Error al loguear el usuario:", error);
+        console.error("Error al realizar peticion de servicio tercero:", error);
         const statusCode = error.code || constants.HTTP_STATUS_INTERNAL_SERVER_ERROR;
         code = statusCode;
         message = error.message;
