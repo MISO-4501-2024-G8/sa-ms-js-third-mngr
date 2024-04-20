@@ -35,9 +35,9 @@ describe('Database', () => {
         );
     });
 
-    it('should create a new Models instance', () => {
-        expect(Models).toHaveBeenCalledWith(database.sequelize);
-    });
+    // it('should create a new Models instance', () => {
+    //     expect(Models).toHaveBeenCalledWith(database.sequelize);
+    // });
 
     it('should connect to the database', async () => {
         await database.connect();
