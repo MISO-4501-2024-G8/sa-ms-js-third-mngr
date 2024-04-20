@@ -2,11 +2,12 @@
 
 const { Sequelize } = require('sequelize');
 const Models = require('./models');
+const DBThirdModels = require('./dbthirdModels');
 
 class Database {
-    constructor() {
+    constructor(DBName) {
         const DBData = {
-            database: process.env.DB_DATABASE,
+            database: DBName || process.env.DB_DATABASE,
             username: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             host: process.env.DB_HOST,
@@ -16,7 +17,11 @@ class Database {
             host: DBData.host,
             dialect: DBData.dialect
         });
-        this.models = new Models(this.sequelize);
+        if (DBData.database === 'db_user') {
+            this.models = new Models(this.sequelize);
+        }else if (DBData.database === 'db_third') {
+            this.models = new DBThirdModels(this.sequelize);
+        }
     }
 
     async connect() {
