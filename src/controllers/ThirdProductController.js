@@ -23,6 +23,14 @@ const Availability = dbThird.models.defineAvailability();
 const expirationTime = 600 * 2000;
 const secret = 'MISO-4501-2024-G8';
 
+const checkBody = async (req, res) => {
+    if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
+        const error = new Error("No se ha enviado el cuerpo de la petición");
+        error.code = constants.HTTP_STATUS_BAD_REQUEST;
+        throw error;
+    }
+}
+
 thirdProductController.get("/third_catalog", async (req, res) => {
     try {
         const users = await User.findAll({ where: { user_type: 2 } });
@@ -116,11 +124,7 @@ thirdProductController.get("/third_product/:id", async (req, res) => {
 
 thirdProductController.post("/third_product", async (req, res) => {
     try {
-        if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
-            const error = new Error("No se ha enviado el cuerpo de la petición");
-            error.code = constants.HTTP_STATUS_BAD_REQUEST;
-            throw error;
-        }
+        await checkBody(req, res);
         const {
             id_third_user,
             name,
@@ -274,11 +278,7 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
 
 thirdProductController.post("/customer_service", async (req, res) => {
     try {
-        if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
-            const error = new Error("No se ha enviado el cuerpo de la petición");
-            error.code = constants.HTTP_STATUS_BAD_REQUEST;
-            throw error;
-        }
+        await checkBody(req, res);
         const {
             id_user,
             id_service,
