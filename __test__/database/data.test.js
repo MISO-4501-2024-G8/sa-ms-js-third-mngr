@@ -35,10 +35,6 @@ describe('Database', () => {
         );
     });
 
-    // it('should create a new Models instance', () => {
-    //     expect(Models).toHaveBeenCalledWith(database.sequelize);
-    // });
-
     it('should connect to the database', async () => {
         await database.connect();
         expect(database.sequelize.authenticate).toHaveBeenCalled();
@@ -54,5 +50,10 @@ describe('Database', () => {
     it('should sync models', async () => {
         await database.syncModels();
         expect(database.sequelize.sync).toHaveBeenCalled();
+    });
+
+    it('should use different db', async () => {
+        database = new Database("db_user");
+        database = new Database("db_third");
     });
 });

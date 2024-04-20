@@ -60,7 +60,11 @@ thirdProductController.get("/third_product", async (req, res) => {
 thirdProductController.get("/third_product/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const thirdUser = await ThirdUser.findOne({ where: { id: id } });
+        let thirdUser = await ThirdUser.findOne({ where: { id: id } });
+        console.log('get_thirdu:', process.env.get_thirdu);
+        if (process.env.get_thirdu === 'true') {
+            thirdUser = undefined;
+        }
         if (!thirdUser) {
             const error = new Error("El tercero no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -68,9 +72,15 @@ thirdProductController.get("/third_product/:id", async (req, res) => {
         }
         const thirdProduct = await ThirdProduct.findAll({ where: { id_third_user: id } });
         const allProducts = await Promise.all(await thirdProduct.map(async (prod) => {
-            const product = prod.toJSON();
+            let product = prod.toJSON();
             console.log('Product:', JSON.stringify(product));
             const productType = product.typeProduct;
+            if (process.env.get_medicalt) {
+                product.typeProduct = 'medical';
+            }
+            if (process.env.get_trainert) {
+                product.typeProduct = 'trainer';
+            }
             if (product.typeProduct === 'medical') {
                 const doctor = await Doctor.findOne({ where: { id_third_product: product.id } });
                 const availability = await Availability.findAll({ where: { id_service_worker: doctor.id } });
@@ -119,7 +129,10 @@ thirdProductController.post("/third_product", async (req, res) => {
             typeProduct,
             representative_phone
         } = req.body;
-        const thirdUserExist = await ThirdUser.findOne({ where: { id: id_third_user } });
+        let thirdUserExist = await ThirdUser.findOne({ where: { id: id_third_user } });
+        if (process.env.post_thirdu === 'true') {
+            thirdUserExist = undefined;
+        }
         if (!thirdUserExist) {
             const error = new Error("El usuario tercero no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -210,7 +223,10 @@ thirdProductController.post("/third_product", async (req, res) => {
 thirdProductController.delete("/third_product/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const thirdProduct = await ThirdProduct.findOne({ where: { id: id } });
+        let thirdProduct = await ThirdProduct.findOne({ where: { id: id } });
+        if (process.env.third_p === 'true') {
+            thirdProduct = undefined;
+        }
         if (!thirdProduct) {
             const error = new Error("El producto tercero no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -218,6 +234,9 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
         }
         if (process.env.NODE_ENVIRONMENT !== 'test') {
             await ThirdProduct.destroy({ where: { id: id } });
+        }
+        if (process.env.medical_p === 'true') {
+            thirdProduct.typeProduct = 'medical';
         }
         if (thirdProduct.typeProduct === 'medical') {
             const doctor = await Doctor.findOne({ where: { id_third_product: id } });
@@ -230,6 +249,9 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
                     await Availability.destroy({ where: { id: avail.id } });
                 }));
             }
+        }
+        if (process.env.trainer_p === 'true') {
+            thirdProduct.typeProduct = 'trainer';
         }
         if (thirdProduct.typeProduct === 'trainer') {
             const trainer = await Trainer.findOne({ where: { id_third_product: id } });
@@ -267,13 +289,19 @@ thirdProductController.post("/customer_service", async (req, res) => {
             value,
             service_date
         } = req.body;
-        const userExist = await User.findOne({ where: { id: id_user } });
+        let userExist = await User.findOne({ where: { id: id_user } });
+        if (process.env.user_u === 'true') {
+            userExist = undefined;
+        }
         if (!userExist) {
             const error = new Error("El usuario no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
-        const thirdProductExist = await ThirdProduct.findOne({ where: { id: id_service } });
+        let thirdProductExist = await ThirdProduct.findOne({ where: { id: id_service } });
+        if (process.env.third_u === 'true') {
+            thirdProductExist = undefined;
+        }
         if (!thirdProductExist) {
             const error = new Error("El producto tercero no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -302,7 +330,10 @@ thirdProductController.post("/customer_service", async (req, res) => {
 thirdProductController.get("/customer_service/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findOne({ where: { id: id } });
+        let user = await User.findOne({ where: { id: id } });
+        if (process.env.userUndefined === 'true') {
+            user = undefined;
+        }
         if (!user) {
             const error = new Error("El usuario no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -339,7 +370,10 @@ thirdProductController.get("/customer_service/:id", async (req, res) => {
 thirdProductController.delete("/customer_service/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const customerService = await CustomerService.findOne({ where: { id: id } });
+        let customerService = await CustomerService.findOne({ where: { id: id } });
+        if (process.env.CSUndefined === 'true') {
+            customerService = undefined;
+        }
         if (!customerService) {
             const error = new Error("El servicio al cliente no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;

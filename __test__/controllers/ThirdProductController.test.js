@@ -142,6 +142,35 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_CREATED);
     });
 
+    it("should create a Trainer Third Product", async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.post_thirdu = "true";
+        const tproductData = {
+            "id_third_user": "eaf96b53",
+            "typeProduct": "trainer",
+            "name": "Entrenador XX 2",
+            "description": "Ofrece servicios de entrenamiento personalizado y muy baratos",
+            "value": 40,
+            "representative_phone": "3223467890",
+            "availability": [
+                {
+                    "day": "martes",
+                    "time_start": 11,
+                    "time_end": 15
+                },
+                {
+                    "day": "viernes",
+                    "time_start": 11,
+                    "time_end": 15
+                }
+            ]
+        };
+        const response = await supertest(app)
+            .post("/third/third_product")
+            .send(tproductData);
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
     it('should get third_catalog', async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
@@ -163,8 +192,62 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
     });
 
+    it('should hanlde error when get third_product by id - 1', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.get_thirdu = 'true';
+        const response = await supertest(app)
+            .get("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
+    it('should get third_product by id - 2', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.get_thirdu = 'false';
+        process.env.get_medicalt = 'true';
+        const response = await supertest(app)
+            .get("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it('should get third_product by id - 3', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.get_thirdu = 'false';
+        process.env.get_medicalt = 'false';
+        process.env.get_trainert = 'false';
+        const response = await supertest(app)
+            .get("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
     it('should delete third_product by id', async () => {
         process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .delete("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it('should delete third_product by id - 1', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.third_p = "true";
+        const response = await supertest(app)
+            .delete("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
+    it('should delete third_product by id - 2', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.third_p = "false";
+        process.env.medical_p = "true";
+        const response = await supertest(app)
+            .delete("/third/third_product/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it('should delete third_product by id - 3', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.third_p = "false";
+        process.env.medical_p = "false";
+        process.env.trainer_p = "true";
         const response = await supertest(app)
             .delete("/third/third_product/1")
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
@@ -187,6 +270,51 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_CREATED);
     });
 
+    it('should handle error when post to customer_service - 1', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .post("/third/customer_service")
+            .send(undefined)
+        expect(response.status).toBe(constants.HTTP_STATUS_BAD_REQUEST);
+    });
+
+    it('should handle error when post to customer_service - 2', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.user_u = "true";
+        const response = await supertest(app)
+            .post("/third/customer_service")
+            .send({
+                "id_user":"e2f75148",
+                "id_service": "d890e14f",
+                "user_name": "Pepito",
+                "user_address": "Calle 123 #24-45",
+                "user_neighborhood": "Engativa",
+                "user_phone": "3223443231",
+                "value": 50,
+                "service_date":"2024-04-19"
+            })
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
+    it('should handle error when post to customer_service - 3', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.user_u = "false";
+        process.env.third_u = "true";
+        const response = await supertest(app)
+            .post("/third/customer_service")
+            .send({
+                "id_user":"e2f75148",
+                "id_service": "d890e14f",
+                "user_name": "Pepito",
+                "user_address": "Calle 123 #24-45",
+                "user_neighborhood": "Engativa",
+                "user_phone": "3223443231",
+                "value": 50,
+                "service_date":"2024-04-19"
+            })
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
     it('it should get customer_service by id', async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
@@ -194,11 +322,27 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
     });
 
+    it('it should handle error when get customer_service by id', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.userUndefined = "true";
+        const response = await supertest(app)
+            .get("/third/customer_service/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
     it('it should delete customer_service by id', async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
             .delete("/third/customer_service/1")
         expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it('it should handle error in customer_service by id', async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        process.env.CSUndefined = "true";
+        const response = await supertest(app)
+            .delete("/third/customer_service/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
     });
 
 });
