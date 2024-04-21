@@ -231,11 +231,6 @@ thirdProductController.post("/third_product", async (req, res) => {
                 avtrainer.push(trainer_av);
             }
             console.log('Trainer:', JSON.stringify(trainer.toJSON()));
-            const thirdTrainer = {
-                thirdProduct,
-                trainer: trainer,
-                availability: avtrainer
-            }
             res.status(constants.HTTP_STATUS_CREATED).json({
                 ...thirdProduct.toJSON(),
                 availability: avtrainer,
