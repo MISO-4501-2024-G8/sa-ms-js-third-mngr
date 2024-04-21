@@ -48,20 +48,32 @@ thirdProductController.get("/third_catalog", async (req, res) => {
                 company_status: thirdUser.company_status
             };
         }));
-        res.status(constants.HTTP_STATUS_OK).json(thirdUsers);
+        res.status(constants.HTTP_STATUS_OK).json({
+            thirdUsers,
+            code: constants.HTTP_STATUS_OK
+        });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({
+            message,
+            code: code
+        });
     }
 });
 
 thirdProductController.get("/third_product", async (req, res) => {
     try {
         const thirdProducts = await ThirdProduct.findAll();
-        res.status(constants.HTTP_STATUS_OK).json(thirdProducts);
+        res.status(constants.HTTP_STATUS_OK).json({
+            thirdProducts,
+            code: constants.HTTP_STATUS_OK
+        });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({
+            message,
+            code: code
+        });
     }
 });
 
@@ -115,10 +127,16 @@ thirdProductController.get("/third_product/:id", async (req, res) => {
             }
         }));
         allProducts.sort((a, b) => b.productType.localeCompare(a.productType));
-        res.status(constants.HTTP_STATUS_OK).json(allProducts);
+        res.status(constants.HTTP_STATUS_OK).json({
+            allProducts,
+            code: constants.HTTP_STATUS_OK
+        });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({
+            message,
+            code: code
+        });
     }
 });
 
@@ -153,7 +171,10 @@ thirdProductController.post("/third_product", async (req, res) => {
             representative_phone
         });
         if (!['medical', 'trainer'].includes(typeProduct)) {
-            res.status(constants.HTTP_STATUS_CREATED).json(thirdProduct);
+            res.status(constants.HTTP_STATUS_CREATED).json({
+                ...thirdProduct.toJSON(),
+                code: constants.HTTP_STATUS_CREATED
+            });
             return;
         }
         if (typeProduct === 'medical') {
@@ -181,13 +202,12 @@ thirdProductController.post("/third_product", async (req, res) => {
                 avdoc.push(doc_av);
             }
             console.log('Doctor:', JSON.stringify(doctor.toJSON()));
-            const thirdMedical = {
-                thirdProduct: thirdProduct,
-                doctor: doctor,
-                availability: avdoc
-
-            }
-            res.status(constants.HTTP_STATUS_CREATED).json(thirdMedical);
+            res.status(constants.HTTP_STATUS_CREATED).json({
+                ...thirdProduct.toJSON(),
+                address: doctor.address,
+                availability: avdoc,
+                code: constants.HTTP_STATUS_CREATED
+            });
         } else if (typeProduct === 'trainer') {
             const {
                 availability
@@ -212,15 +232,22 @@ thirdProductController.post("/third_product", async (req, res) => {
             }
             console.log('Trainer:', JSON.stringify(trainer.toJSON()));
             const thirdTrainer = {
-                thirdProduct: thirdProduct,
+                thirdProduct,
                 trainer: trainer,
                 availability: avtrainer
             }
-            res.status(constants.HTTP_STATUS_CREATED).json(thirdTrainer);
+            res.status(constants.HTTP_STATUS_CREATED).json({
+                ...thirdProduct.toJSON(),
+                availability: avtrainer,
+                code: constants.HTTP_STATUS_CREATED
+            });
         }
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({
+            message,
+            code: code
+        });
     }
 });
 
@@ -269,10 +296,10 @@ thirdProductController.delete("/third_product/:id", async (req, res) => {
                 }));
             }
         }
-        res.status(constants.HTTP_STATUS_OK).json({ message: "Producto eliminado correctamente" });
+        res.status(constants.HTTP_STATUS_OK).json({ message: "Producto eliminado correctamente", code: constants.HTTP_STATUS_OK });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({ message, code: code });
     }
 });
 
@@ -320,10 +347,13 @@ thirdProductController.post("/customer_service", async (req, res) => {
             service_date
         });
 
-        res.status(constants.HTTP_STATUS_CREATED).json(customerService);
+        res.status(constants.HTTP_STATUS_CREATED).json({
+            ...customerService.toJSON(),
+            code: constants.HTTP_STATUS_CREATED
+        });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({ message, code: code });
     }
 });
 
@@ -360,10 +390,16 @@ thirdProductController.get("/customer_service/:id", async (req, res) => {
             };
         }));
 
-        res.status(constants.HTTP_STATUS_OK).json(customer_services);
+        res.status(constants.HTTP_STATUS_OK).json({
+            customer_services,
+            code: constants.HTTP_STATUS_OK
+        });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({
+            message,
+            code: code
+        });
     }
 });
 
@@ -382,10 +418,10 @@ thirdProductController.delete("/customer_service/:id", async (req, res) => {
         if (process.env.NODE_ENVIRONMENT !== 'test') {
             await CustomerService.destroy({ where: { id: id } });
         }
-        res.status(constants.HTTP_STATUS_OK).json({ message: "Servicio al cliente eliminado correctamente" });
+        res.status(constants.HTTP_STATUS_OK).json({ message: "Servicio al cliente eliminado correctamente", code: constants.HTTP_STATUS_OK });
     } catch (error) {
         const { code, message } = errorHandling(error, res);
-        res.status(code).json({ message });
+        res.status(code).json({ message, code: code });
     }
 });
 
