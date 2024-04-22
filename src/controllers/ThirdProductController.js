@@ -302,7 +302,6 @@ thirdProductController.post("/customer_service", async (req, res) => {
     try {
         await checkBody(req, res);
         const {
-            id_user,
             id_service,
             user_name,
             user_address,
@@ -311,14 +310,9 @@ thirdProductController.post("/customer_service", async (req, res) => {
             value,
             service_date
         } = req.body;
-        let userExist = await User.findOne({ where: { id: id_user } });
-        if (process.env.user_u === 'true') {
-            userExist = undefined;
-        }
-        if (!userExist) {
-            const error = new Error("El usuario no existe");
-            error.code = constants.HTTP_STATUS_NOT_FOUND;
-            throw error;
+        let { id_user } = req.body;
+        if (id_user === undefined || id_user === null || id_user === '') {
+            id_user = "nsa_" + uuidv4().split('-')[0];
         }
         let thirdProductExist = await ThirdProduct.findOne({ where: { id: id_service } });
         if (process.env.third_u === 'true') {

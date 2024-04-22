@@ -280,11 +280,10 @@ describe("ThirdProductController", () => {
 
     it('should handle error when post to customer_service - 2', async () => {
         process.env.NODE_ENVIRONMENT = "test";
-        process.env.user_u = "true";
         const response = await supertest(app)
             .post("/third/customer_service")
             .send({
-                "id_user":"e2f75148",
+                "id_user":"",
                 "id_service": "d890e14f",
                 "user_name": "Pepito",
                 "user_address": "Calle 123 #24-45",
@@ -293,12 +292,11 @@ describe("ThirdProductController", () => {
                 "value": 50,
                 "service_date":"2024-04-19"
             })
-        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+        expect(response.status).toBe(201);
     });
 
     it('should handle error when post to customer_service - 3', async () => {
         process.env.NODE_ENVIRONMENT = "test";
-        process.env.user_u = "false";
         process.env.third_u = "true";
         const response = await supertest(app)
             .post("/third/customer_service")
