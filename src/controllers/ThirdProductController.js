@@ -349,12 +349,12 @@ thirdProductController.post("/customer_service", async (req, res) => {
 thirdProductController.get("/customer_service/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        let user = await User.findOne({ where: { id: id } });
+        let cservice = await CustomerService.findOne({ where: { id_user: id } });
         if (process.env.userUndefined === 'true') {
-            user = undefined;
+            cservice = undefined;
         }
-        if (!user) {
-            const error = new Error("El usuario no existe");
+        if (!cservice) {
+            const error = new Error("El usuario no tiene servicios al cliente");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
