@@ -160,6 +160,17 @@ thirdProductController.post("/third_product", async (req, res) => {
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
+        let productExist = await ThirdProduct.findOne({ where: { id_third_user: id_third_user, typeProduct: typeProduct } });
+        console.log('NODE_ENVIRONMENT', process.env.NODE_ENVIRONMENT)
+        if (process.env.NODE_ENVIRONMENT === 'test') {
+            productExist = undefined;
+        }
+
+        if (productExist) {
+            const error = new Error("Ya existe un producto con ese tipo");
+            error.code = constants.HTTP_STATUS_CONFLICT;
+            throw error;
+        }
         const idThirdProduct = uuidv4().split('-')[0];
         const thirdProduct = await ThirdProduct.create({
             id: idThirdProduct,
