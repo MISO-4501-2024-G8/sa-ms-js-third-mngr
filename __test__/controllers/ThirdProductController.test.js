@@ -69,6 +69,22 @@ describe("ThirdProductController", () => {
         expect(response.status).toBe(constants.HTTP_STATUS_BAD_REQUEST);
     });
 
+    it("should handle error when creating Third Product", async () => {
+        process.env.NODE_ENVIRONMENT = "false";
+        const tproductData = {
+            "id_third_user": "eaf96b53",
+            "typeProduct": "delivery-devices",
+            "name": "Dispositivos Mario 2",
+            "description": "Ofrecemos alquiler de dispositivos para recuperacion en entrenamiento",
+            "value": 5,
+            "representative_phone": "3212453456"
+        };
+        const response = await supertest(app)
+            .post("/third/third_product")
+            .send(tproductData);
+        expect(response.status).toBe(constants.HTTP_STATUS_CONFLICT);
+    });
+
     it("should create a Normal Third Product", async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const tproductData = {
