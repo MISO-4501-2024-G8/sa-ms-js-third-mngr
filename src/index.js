@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 const DBData = {
     database: process.env.DB_DATABASE || "db_user",
     username: process.env.DB_USER || "admin",
-    password: process.env.DB_PASSWORD || "123456789",
-    host: process.env.DB_HOST || "databasesportapp.cvweuasge1pc.us-east-1.rds.amazonaws.com",
+    password: process.env.DB_PASSWORD || "c5d5e19030104ba38e131c2ee8e76dec",
+    host: process.env.DB_HOST || "dbsportapprestore.cvweuasge1pc.us-east-1.rds.amazonaws.com",
     dialect: process.env.DB_DIALECT || "mysql"
 }
 console.log('DBData:', JSON.stringify(DBData));
