@@ -8,10 +8,7 @@ const Database = require("../database/data");
 
 const consultationController = express.Router();
 
-const dbUser = new Database("db_user");
 const dbThird = new Database("db_third");
-const User = dbUser.models.defineUser();
-const ThirdUser = dbUser.models.defineThirdUser();
 const Consultation =  dbThird.models.defineConsultation();
 const expirationTime = 600 * 2000;
 const secret = 'MISO-4501-2024-G8';

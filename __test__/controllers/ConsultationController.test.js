@@ -15,16 +15,12 @@ jest.mock('../../src/database/data', () => {
     const Models = require('../../src/database/models');
     const DBThirdModels = require('../../src/database/dbthirdModels');
     class DatabaseMock {
-        constructor(DBName) {
+        constructor() {
             this.sequelize = new SequelizeMock('database', 'username', 'password', {
                 dialect: 'sqlite',
                 storage: ':memory:',
             });
-            if (DBName === 'db_user') {
-                this.models = new Models(this.sequelize);
-            } else if (DBName === 'db_third') {
-                this.models = new DBThirdModels(this.sequelize);
-            }
+                this.models = new DBThirdModels(this.sequelize);   
         }
 
         async connect() {
