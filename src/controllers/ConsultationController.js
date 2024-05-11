@@ -41,6 +41,9 @@ consultationController.get("/consultation/:id", async (req, res) => {
     try {
         const { id } = req.params;
         let consultation = await Consultation.findOne({ where: { id: id } });
+        if(process.env.NODE_ENVIRONMENT === "consulta_no_existente") {
+            consultation =  undefined;
+        }
         if (!consultation) {
             const error = new Error("La consulta no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -62,7 +65,10 @@ consultationController.get("/consultation/:id", async (req, res) => {
 consultationController.get("/consultations/user/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const consultation = await Consultation.findAll({ where: { id_user: id } });
+        let consultation = await Consultation.findAll({ where: { id_user: id } });
+        if(process.env.NODE_ENVIRONMENT === "consulta_no_existente") {
+            consultation =  undefined;
+        }
         if (!consultation) {
             const error = new Error("El usuario no tiene asociadas consultas");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -91,7 +97,7 @@ consultationController.post("/consultations", async (req, res) => {
             consultation_date,
             link,
         } = req.body;
-      
+
         const idConsultation = uuidv4().split('-')[0];
         const consultation = await Consultation.create({
             id: idConsultation,
@@ -127,7 +133,10 @@ consultationController.put("/consultations/:id", async (req, res) => {
         } = req.body;
         const { id } = req.params;
 
-        const consultation = await Consultation.findOne({ where: { id: id } });
+        let consultation = await Consultation.findOne({ where: { id: id } });
+        if(process.env.NODE_ENVIRONMENT === "consulta_no_existente") {
+            consultation =  undefined;
+        }
         if (!consultation) {
             const error = new Error("La consulta no fue encontrada");
             error.code = constants.HTTP_STATUS_NOT_FOUND;

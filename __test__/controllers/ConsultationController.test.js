@@ -60,16 +60,16 @@ describe("ConsultationController", () => {
     it("should handle error consultation", async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
-            .post("/consultations")
+            .post("/consultation/consultations")
             .send(undefined);
-        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+        expect(response.status).toBe(constants.HTTP_STATUS_BAD_REQUEST);
     });
 
-    it("should get consultation", async () => {
+    it("should get consultations", async () => {
         process.env.NODE_ENVIRONMENT = "test";
         const response = await supertest(app)
-            .get("/consultations")
-        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+            .get("/consultation/consultations")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
     });
 
     it("should create a consultation", async () => {
@@ -82,9 +82,67 @@ describe("ConsultationController", () => {
             "link": "http://linkreu.edu"
         };
         const response = await supertest(app)
-            .post("/consultations")
+            .post("/consultation/consultations")
             .send(tproductData);
         expect(response.status).toBe(constants.HTTP_STATUS_CREATED);
+    });
+
+    it("should update a consultation", async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const tproductData = {
+            "id_service_worker": "asert15sd45",
+            "id_user": "a2133bb5",
+            "consultation_type": "Virtual",
+            "consultation_date": "2024-05-28 14:30:00",
+            "link": "http://linkreu.edu"
+        };
+        const response = await supertest(app)
+            .put("/consultation/consultations/1")
+            .send(tproductData);
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it("should get one consultation", async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .get("/consultation/consultation/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it("should get a user consultations", async () => {
+        process.env.NODE_ENVIRONMENT = "test";
+        const response = await supertest(app)
+            .get("/consultation/consultations/user/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_OK);
+    });
+
+    it("should throw error for an invalid consultation", async () => {
+        process.env.NODE_ENVIRONMENT = "consulta_no_existente";
+        const response = await supertest(app)
+            .get("/consultation/consultation/1")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
+    it("should throw error for an invalid user consultations", async () => {
+        process.env.NODE_ENVIRONMENT = "consulta_no_existente";
+        const response = await supertest(app)
+            .get("/consultation/consultations/user/33333")
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
+    });
+
+    it("should handle error for an invalid consultation update", async () => {
+        process.env.NODE_ENVIRONMENT = "consulta_no_existente";
+        const tproductData = {
+            "id_service_worker": "asert15sd45",
+            "id_user": "a2133bb5",
+            "consultation_type": "Virtual",
+            "consultation_date": "2024-05-28 14:30:00",
+            "link": "http://linkreu.edu"
+        };
+        const response = await supertest(app)
+            .put("/consultation/consultations/1")
+            .send(tproductData);
+        expect(response.status).toBe(constants.HTTP_STATUS_NOT_FOUND);
     });
 
 
