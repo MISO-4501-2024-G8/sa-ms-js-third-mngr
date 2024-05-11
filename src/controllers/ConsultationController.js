@@ -105,7 +105,7 @@ consultationController.post("/consultations", async (req, res) => {
             link,
         });
         res.status(constants.HTTP_STATUS_CREATED).json({
-            ...consultation.toJSON(),
+            consultation,
             code: constants.HTTP_STATUS_CREATED
         });
         
@@ -130,12 +130,18 @@ consultationController.put("/consultations/:id", async (req, res) => {
         } = req.body;
         const { id } = req.params;
 
-        const consultation = await Consultation.replaceOne({ where: { id: id } }, req.body);
+        const consultation = await Consultation.findOne({ where: { id: id } });
         if (!consultation) {
             const error = new Error("La consulta no fue encontrada");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
             throw error;
         }
+        consultation.id_service_worker = id_service_worker
+        consultation.id_user = id_user
+        consultation.consultation_type = consultation_type
+        consultation.consultation_date = consultation_date
+        consultation.link = link
+        consultation.save()
         res.status(constants.HTTP_STATUS_OK).json({
             consultation,
             code: constants.HTTP_STATUS_OK
