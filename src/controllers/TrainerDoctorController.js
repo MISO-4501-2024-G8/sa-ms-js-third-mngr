@@ -32,7 +32,7 @@ trainerDoctorController.get("/doctors", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -57,7 +57,7 @@ trainerDoctorController.get("/doctor/:id", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -73,7 +73,7 @@ trainerDoctorController.get("/trainers", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -98,7 +98,7 @@ trainerDoctorController.get("/trainer/:id", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
