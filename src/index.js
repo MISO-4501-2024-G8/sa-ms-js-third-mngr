@@ -18,7 +18,8 @@ console.log('DBData:', JSON.stringify(DBData));
 const healthController = require("./controllers/HealthController");
 const registerThirdController = require("./controllers/RegisterThirdController");
 const thirdProductController = require("./controllers/ThirdProductController");
-
+const trainerDoctorController = require("./controllers/TrainerDoctorController");
+const consultationController = require("./controllers/ConsultationController");
 
 const app = express();
 app.disable("x-powered-by");
@@ -31,7 +32,10 @@ app.use(bodyParser.json());
 app.use("/health", healthController);
 app.use("/register", registerThirdController);
 app.use("/third", thirdProductController);
+app.use("/sportsSpecialist", trainerDoctorController);
+app.use("/consultation", consultationController);
 // Health check endpoint
+
 app.get("/", (req, res) => {
     res.status(200).json({ status: "OK", code: 200 });
 });
