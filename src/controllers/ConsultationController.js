@@ -29,7 +29,7 @@ consultationController.get("/consultations", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -54,7 +54,7 @@ consultationController.get("/consultation/:id", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -79,7 +79,7 @@ consultationController.get("/consultations/user/:id", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -113,7 +113,7 @@ consultationController.post("/consultations", async (req, res) => {
         });
         
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
@@ -153,7 +153,7 @@ consultationController.put("/consultations/:id", async (req, res) => {
             code: constants.HTTP_STATUS_OK
         });
     } catch (error) {
-        const { code, message } = errorHandling(error, res);
+        const { code } = errorHandling(error, res);
         res.status(code).json({
             message: error,
             code: code
