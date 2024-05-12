@@ -16,13 +16,13 @@ const Trainer = dbThird.models.defineTrainer();
 const expirationTime = 600 * 2000;
 const secret = 'MISO-4501-2024-G8';
 
-const checkBody = async (req, res) => {
+/*const checkBody = async (req, res) => {
     if (req.body === undefined || req.body === null || Object.keys(req.body).length === 0) {
         const error = new Error("No se ha enviado el cuerpo de la petición");
         error.code = constants.HTTP_STATUS_BAD_REQUEST;
         throw error;
     }
-}
+}*/
 
 trainerDoctorController.get("/doctors", async (req, res) => {
     try {
@@ -44,6 +44,9 @@ trainerDoctorController.get("/doctor/:id", async (req, res) => {
     try {
         const { id } = req.params;
         let doctor = await Doctor.findOne({ where: { id: id } });
+        if(process.env.NODE_ENVIRONMENT === "consulta_no_existente") {
+            consultation =  undefined;
+        }
         if (!doctor) {
             const error = new Error("El doctor no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
@@ -82,6 +85,9 @@ trainerDoctorController.get("/trainer/:id", async (req, res) => {
     try {
         const { id } = req.params;
         let trainer = await Trainer.findOne({ where: { id: id } });
+        if(process.env.NODE_ENVIRONMENT === "consulta_no_existente") {
+            consultation =  undefined;
+        }
         if (!trainer) {
             const error = new Error("El entrenador no existe");
             error.code = constants.HTTP_STATUS_NOT_FOUND;
